@@ -34,7 +34,7 @@ def forget():
     opts.place_forget()
     confirmdelbtn.place_forget()
 def confirmdel():
-    global opts,state1,state2,nodes
+    global opts,state1,state2,nodes,finalstate
     temp_del=opts.get()
     if(temp_del!=" " and temp_del!="Deleted Successfully"):
         try:
@@ -49,6 +49,8 @@ def confirmdel():
             state1.set("")
         if(state2.get()==temp_del):
             state2.set("")
+        if(temp_del in finalstate):
+            finalstate.remove(temp_del)
         refreshImage()
         updateList()
 def delete():
@@ -149,6 +151,33 @@ def test():
             print("Passed")
         else:
             print("Failed")
+def save():
+    loc=fd.asksaveasfilename(filetypes=[("Dot Files","*.dot")])
+    try:
+        graph.write(loc+".dot")
+        mg.showinfo("Save","Save Successful")
+    except:
+        mg.showerror("Error","There was an error")
+def load():
+    global nodes,finalstate,statenumber
+    loc=fd.askopenfilename(filetypes=[("Dot Files","*.dot")])
+    try:
+        graph.read(loc)
+        finalstate=[]
+        nodes=graph.nodes()
+        statenumber=0
+        for i in nodes:
+            statenumber+=1
+            temp_node=graph.get_node(i)
+            if(i.attr["fillcolor"]=="red"):
+                finalstate.append(temp_node)
+        graph.draw("graph.png")
+        print(statenumber)
+        refreshImage()
+        updateList()
+        mg.showinfo("Load","Loaded Successfully")
+    except:
+        mg.showerror("Error","Load Failed")
 graph=pgv.AGraph(directed=True,strict=False)
 graph.node_attr["style"]="filled"
 graph.node_attr["fillcolor"]="white"
@@ -174,11 +203,15 @@ testbtn=Button(r,text="Test",command=test)
 testentry=Entry(r,width=60)
 display=tk.Label(r,image=img,width=750,height=340)
 edgelabel=Entry(r)
+savebtn=Button(r,text="Save",command=save,width=5)
+loadbtn=Button(r,text="Load",command=load,width=5)
 addlabel=Button(r,text="Add",command=addLabel)
 Label(r,text="to",font=("Arial",12)).place(relx=0.41,rely=0.25,anchor="center")
 Label(r,text="Transitions",font=("Arial",16)).place(relx=0.35,rely=0.18,anchor="center")
 Label(r,text="Transition Label",font=("Arial",12)).place(relx=0.63,rely=0.18,anchor="center")
 Label(r,text="Test input string",font=("Arial",16)).place(relx=0.38,rely=0.32,anchor="center")
+savebtn.place(relx=0.03,rely=0.02,anchor="center")
+loadbtn.place(relx=0.09,rely=0.02,anchor="center")
 edgelabel.place(relx=0.64,rely=0.25,anchor="center")
 testbtn.place(relx=0.79,rely=0.37,anchor="center")
 configfinal.place(relx=0.22,rely=0.09,anchor="center")
