@@ -1,3 +1,6 @@
 .git/
 pgvtest.py
 graph.png
+build/
+dist/
+FADesign.spec

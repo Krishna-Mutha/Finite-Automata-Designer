@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import filedialog as fd
 from tkinter import messagebox as mg
 from tkinter.ttk import *
+import os
 from PIL import ImageTk,Image
 import pygraphviz as pgv
 r=Tk()
@@ -148,9 +149,9 @@ def test():
                     break
             continue
         if(currentnode in finalstate):
-            print("Passed")
+            mg.showinfo("Passed","Input string accepted")
         else:
-            print("Failed")
+            mg.showinfo("Failed","Input string rejected")
 def save():
     loc=fd.asksaveasfilename(filetypes=[("Dot Files","*.dot")])
     try:
@@ -178,6 +179,10 @@ def load():
         mg.showinfo("Load","Loaded Successfully")
     except:
         mg.showerror("Error","Load Failed")
+def closefunc():
+    os.remove("graph.png")
+    r.destroy()
+r.protocol("WM_DELETE_WINDOW",closefunc)
 graph=pgv.AGraph(directed=True,strict=False)
 graph.node_attr["style"]="filled"
 graph.node_attr["fillcolor"]="white"
