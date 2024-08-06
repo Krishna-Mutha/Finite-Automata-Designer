@@ -16,6 +16,9 @@ The **Finite Automata Designer** is a graphical tool for creating and managing f
 - **PIL (Pillow)**: For image handling.
 - **Pygraphviz**: For graph representation and manipulation.
 
+## Executable Download
+- https://drive.google.com/file/d/1afO3Rdf3jAeTOrbrYgbRjllJhX7l5mcR/view?usp=sharing
+  
 ## Installation
 
 Ensure you have Python 3 and pip installed. Then, install the required dependencies:
